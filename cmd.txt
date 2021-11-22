@@ -1,0 +1,150 @@
+Curso Ruby on Rails 6 - Autenticação via API #3 - PostgreSQL
+https://www.youtube.com/watch?v=trwGEj4ZV3s&list=PLqsayW8DhUmsuvK17gwSI_rKbAlmxFIw5&index=3
+
+atalho para abrir terminal no VSCODE: "Ctrl + j"
+
+
+
+
+instalando PostgreSQL:
+psql -U postgres -c "CREATE ROLE Vandreh LOGIN NOSUPERUSER INHERIT CREATEDB CREATEROLE;"
+
+entrar no console do psql:
+psql -U postgres
+\dg
+\passowrd Vandreh
+\?
+\q
+
+Na barra de busca do windows digitar -> Stack Builder
+------------------>
+para linux
+sudo -u postgres createuser Vandreh -dr
+sudo -u postgres psql
+service postgresql
+service postgresql status
+Stack Builder
+<------------------
+Criando o sistema:
+
+rails new blog_api -d postgresql --api
+cd blog_api
+bundle binstubs bundler
+para abrir o projeto no VSCode digitar -> code .
+rails g scaffold Article title:string body:text
+rails db:create
+rails db:migrate
+rails c
+Article.create title: 'Gabriela e Amanda', body: 'Amo vocês duas!!!' 
+Ctrl + c
+
+
+
+
+#5 - Versionamento da API
+rails c
+Article.create title: 'Versão 2', body: 'Essa api é da versão 2'
+Article.first
+Article.last
+exit
+rals s
+
+
+
+
+#6 - devise_token_auth
+bundle add devise_token_auth
+bundle add letter_opener
+bundle add active_model_serializers
+
+rails g serializer article
+rails g devise:install
+
+---------------------->
+
+rails g devise:install
+      create  config/initializers/devise.rb
+      create  config/locales/devise.en.yml
+===============================================================================
+
+Depending on your application's configuration some manual setup may be required:
+
+  1. Ensure you have defined default url options in your environments files. Here
+     is an example of default_url_options appropriate for a development environment
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
+     In production, :host should be set to the actual host of your application.
+
+     * Required for all applications. *
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root to: "home#index"
+
+     * Not required for API-only Applications *
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+     * Not required for API-only Applications *
+
+  4. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+     * Not required *
+
+     <--------------------------
+
+rails g devise_token_auth:install User auth
+rails db:migrate
+
+
+
+
+#7 - Criar uma conta
+rails c
+User.first.destroy
+User.all.count
+exit
+
+
+
+
+
+#8 - Validar as Rotas
+#9 - Controllers Controlados
+rails g migration AddUserRefToArticles user:references
+
+rails c
+Article.count
+Article.delete_all
+Article.count
+exit
+rails db:migrate
+
+
+
+
+
+https://www.youtube.com/watch?v=-MpgOZFnjD4&list=PLqsayW8DhUmsuvK17gwSI_rKbAlmxFIw5&index=10
+#10 - Deploy no Heroku
+# instalar gem que permite ter backend e frontend em servidores diferentes
+bundle add rack-cors
+
+# ativa o spring (gem para fazer testes mais rapido)
+bundle exec spring binstub --all
+
+rails c
+Rails.env.production?
+Rails.env.development?
+
+EDITOR="code --wait" bin/rails credentials:edit
+
+
