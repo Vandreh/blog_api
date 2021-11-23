@@ -157,4 +157,12 @@ Master KEY -> https://dashboard.heroku.com/apps/course-blog-api-02/settings
 KEY = RAILS_MASTER_KEY
 VALUE = 6d68b3e5e61bb94afe40ec9590c94dba
 
+bundle update
+
+
+
+
+
+
+
 
