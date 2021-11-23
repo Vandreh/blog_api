@@ -10,9 +10,11 @@ class User < ActiveRecord::Base
   has_many :article, dependent: :destroy
 
   # Caso UID não aparecer para a confirmação de email, descomenar estas linhas e aparagar os parenteses
-  # before_validation :set_uid
-  # private
-  # def set_uid
-  #   self[:uid] = self[:email] if self[:uid].blank? && self[:email].present?
-  # end )
+  before_validation :set_uid
+
+  private
+
+  def set_uid
+    self[:uid] = self[:email] if self[:uid].blank? && self[:email].present?
+  end
 end
